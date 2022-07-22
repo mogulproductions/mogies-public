@@ -61,10 +61,11 @@ The following smart contract allows for the implementation of a "Dutch Auction" 
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
+        <li><a href="#running-tests">Running Tests</a></li>
       </ul>
     </li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>    
   </ol>
 </details>
 
@@ -105,7 +106,7 @@ This is an example of how to list things you need to use the software and how to
 - yarn
 - node
 
-### Dependencies and Copiling Smart Contracts
+### Installation
 
 ```sh
 yarn
