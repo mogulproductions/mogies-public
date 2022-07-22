@@ -40,9 +40,9 @@ The following smart contract allows for the implementation of a "Dutch Auction" 
     <a href="https://app.gitbook.com/o/-Mh98vFfoS7yyoIVunQH/s/-Mh991guqtMouwPer8aw/smart-contracts/mogies-dutch-auction-contract"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
+    <!-- <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
+    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a> -->
   </p>
 </div>
 
