@@ -261,7 +261,7 @@ contract MogiesDutchAuction is Ownable, ERC721A, ReentrancyGuard {
         saleConfig.starsPrice * quantity
       );
     } else {
-      refundIfOver(saleConfig.ethPrice);
+      refundIfOver(saleConfig.ethPrice * quantity);
     }
     saleConfig.saleMintedAmount += quantity;
     _batchMint(msg.sender, quantity);
