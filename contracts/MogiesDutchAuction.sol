@@ -534,12 +534,27 @@ contract MogiesDutchAuction is Ownable, ERC721A, ReentrancyGuard {
     saleConfig.whitelistSaleEndTime = timestamp;
   }
 
+  function setPublicSaleStartTime(uint32 timestamp) external onlyOwner {
+    saleConfig.publicSaleStartTime = timestamp;
+  }
+
   function setPublicSaleEndTime(uint32 timestamp) external onlyOwner {
     saleConfig.publicSaleEndTime = timestamp;
   }
 
-  function setPublicSaleStartTime(uint32 timestamp) external onlyOwner {
-    saleConfig.publicSaleStartTime = timestamp;
+  function batchSetTimes(uint32 _auctionSaleStartTime, uint32 _auctionSaleEndTime, uint32 _whitelistSaleStartTime, uint32 _whitelistSaleEndTime, uint32 _publicSaleStartTime, uint32 _publicSaleEndTime) external onlyOwner {
+    require(_auctionSaleStartTime < _auctionSaleEndTime, "Auction timestamps inverted");
+    require(_auctionSaleEndTime < _whitelistSaleStartTime, "Auction before whitelist sale");
+    require(_whitelistSaleStartTime < _whitelistSaleEndTime, "Whitelist sale timestamps inverted");
+    require(_whitelistSaleEndTime < _publicSaleStartTime, "Whitelist sale before public sale");
+    require(_publicSaleStartTime < _publicSaleEndTime, "Public sale timestamps inverted");
+
+    saleConfig.auctionSaleStartTime = _auctionSaleStartTime;
+    saleConfig.auctionSaleEndTime = _auctionSaleEndTime;
+    saleConfig.whitelistSaleStartTime = _whitelistSaleStartTime;
+    saleConfig.whitelistSaleEndTime = _whitelistSaleEndTime;
+    saleConfig.publicSaleStartTime = _publicSaleStartTime;
+    saleConfig.publicSaleEndTime = _publicSaleEndTime;
   }
 
   // metadata URI
