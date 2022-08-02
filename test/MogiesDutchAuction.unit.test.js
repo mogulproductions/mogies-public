@@ -333,6 +333,40 @@ describe("Mogies dutch auction unit tests", () => {
           endTime
         );
       });
+
+      it("Should allow the owner to batch set times", async () => {
+        const block = await provider.getBlockNumber();
+        const endTime = (await provider.getBlock(block)).timestamp;
+        await dutchAuction
+          .connect(adminAccount)
+          .batchSetTimes(
+            endTime,
+            endTime + 1,
+            endTime + 2,
+            endTime + 3,
+            endTime + 4,
+            endTime + 5
+          );
+
+        expect((await dutchAuction.saleConfig()).auctionSaleStartTime).to.equal(
+          endTime
+        );
+        expect((await dutchAuction.saleConfig()).auctionSaleEndTime).to.equal(
+          endTime + 1
+        );
+        expect(
+          (await dutchAuction.saleConfig()).whitelistSaleStartTime
+        ).to.equal(endTime + 2);
+        expect((await dutchAuction.saleConfig()).whitelistSaleEndTime).to.equal(
+          endTime + 3
+        );
+        expect((await dutchAuction.saleConfig()).publicSaleStartTime).to.equal(
+          endTime + 4
+        );
+        expect((await dutchAuction.saleConfig()).publicSaleEndTime).to.equal(
+          endTime + 5
+        );
+      });
     });
 
     describe("URI tests", async () => {
