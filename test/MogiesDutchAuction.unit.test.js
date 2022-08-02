@@ -353,9 +353,7 @@ describe("Mogies dutch auction unit tests", () => {
         await dutchAuction
           .connect(adminAccount)
           .setHiddenMetadataUri(hiddenMetadataUri);
-        expect(await dutchAuction.hiddenMetadataUri()).to.equal(
-          hiddenMetadataUri
-        );
+        expect(1).to.equal(hiddenMetadataUri);
       });
     });
 
