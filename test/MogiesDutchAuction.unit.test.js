@@ -351,7 +351,7 @@ describe("Mogies dutch auction unit tests", () => {
         expect((await dutchAuction.saleConfig()).auctionSaleStartTime).to.equal(
           endTime
         );
-        expect((await dutchAuction.saleConfig())._auctionSaleEndTime).to.equal(
+        expect((await dutchAuction.saleConfig()).auctionSaleEndTime).to.equal(
           endTime + 1
         );
         expect(
