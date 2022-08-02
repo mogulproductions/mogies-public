@@ -2048,7 +2048,7 @@ describe("Mogies dutch auction unit tests", () => {
           await dutchAuction
             .connect(userAccounts[0])
             .allowlistMint(288, false, proof, {
-              value: ethers.utils.parseUnits("1", "ether"),
+              value: ethers.utils.parseUnits("288", "ether"),
             });
           try {
             await dutchAuction
