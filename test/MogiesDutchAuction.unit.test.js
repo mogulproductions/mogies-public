@@ -341,11 +341,11 @@ describe("Mogies dutch auction unit tests", () => {
           .connect(adminAccount)
           .batchSetTimes(
             endTime,
-            entTime + 1,
+            endTime + 1,
             endTime + 2,
             endTime + 3,
             endTime + 4,
-            endTime + 6
+            endTime + 5
           );
 
         expect((await dutchAuction.saleConfig()).auctionSaleStartTime).to.equal(
