@@ -430,7 +430,7 @@ contract MogiesDutchAuction is Ownable, ERC721A, ReentrancyGuard {
 
   uint256 public AUCTION_START_STARS_PRICE = 74862 ether;
   uint256 public AUCTION_END_STARS_PRICE = 14972400000000 gwei; // 14,972.4 eth
-  uint256 public AUCTION_DROP_PER_STEP_STARS = 14972400000000 gwei; // 14,972.4 eth
+  uint256 public AUCTION_DROP_PER_STEP_STARS = 14972400000000 gwei; // 14,972.4 eth 
 
   // helper functions for setting prices right before auction
   // NOTE: Only for when huge price discrepencies from time of deploying contract to start of auction. Will not be available once auction has already started.
