@@ -28,7 +28,9 @@ describe("Mogies dutch auction unit tests", () => {
   let provider;
 
   const totalNfts = 1923;
-  const auctionNfts = 1585;
+  const auctionNfts = 800;
+  const saleNfts = 1073;
+  const devNfts = 50;
   const maxBatchSize = 10;
   const zeroByte32 =
     "0x0000000000000000000000000000000000000000000000000000000000000000";
@@ -1132,7 +1134,7 @@ describe("Mogies dutch auction unit tests", () => {
       describe("mintRemaining", async () => {
         beforeEach(async () => {
           // dev mint
-          const amountToMint = 50;
+          const amountToMint = devNfts;
           await dutchAuction
             .connect(adminAccount)
             .devMint(amountToMint, adminAccount.address);
@@ -1148,19 +1150,24 @@ describe("Mogies dutch auction unit tests", () => {
           }
           // next day
           await advanceTimeAndBlock(await duration.days(1).toNumber());
-          await dutchAuction.connect(userAccounts[7]).auctionMint(1573, false, {
-            value: ethers.utils.parseUnits("1573", "ether"),
-          });
+          await dutchAuction
+            .connect(userAccounts[7])
+            .auctionMint(auctionNfts - 17, false, {
+              value: ethers.utils.parseUnits(
+                (auctionNfts - 17).toString(),
+                "ether"
+              ),
+            });
 
-          // advance to day 2
+          // advance
           await advanceTimeAndBlock(await duration.days(7).toNumber());
 
           await dutchAuction.connect(adminAccount).setPublicSale(true);
-          // 7 to mint tier 2,
+          // public sale
           await dutchAuction
             .connect(userAccounts[10])
-            .publicSaleMint(283, false, {
-              value: ethers.utils.parseUnits("283", "ether"),
+            .publicSaleMint(saleNfts, false, {
+              value: ethers.utils.parseUnits(saleNfts.toString(), "ether"),
             });
           // advance time to after public
           await advanceTimeAndBlock(await duration.days(2).toNumber());
@@ -1199,11 +1206,11 @@ describe("Mogies dutch auction unit tests", () => {
             await dutchAuction.balanceOf(userAccounts[6].address),
             "user 7"
           ).to.equal(2);
-          // user minted 1573 beforehand + 1 from mintRemaining
+          // user minted auctionNfts - 17 beforehand + 1 from mintRemaining
           expect(
             await dutchAuction.balanceOf(userAccounts[7].address),
             "user 8"
-          ).to.equal(1574);
+          ).to.equal(auctionNfts - 17 + 1);
         });
 
         it("Should allow users to mint remaining from auction (8 users, 10 remaining), no jumping queue", async () => {
@@ -1217,19 +1224,27 @@ describe("Mogies dutch auction unit tests", () => {
 
           // next day
           await advanceTimeAndBlock(await duration.days(1).toNumber());
-          await dutchAuction.connect(userAccounts[7]).auctionMint(1573, false, {
-            value: ethers.utils.parseUnits("1573", "ether"),
-          });
+          await dutchAuction
+            .connect(userAccounts[7])
+            .auctionMint(auctionNfts - 15, false, {
+              value: ethers.utils.parseUnits(
+                (auctionNfts - 15).toString(),
+                "ether"
+              ),
+            });
 
-          // advance to day 2
+          // advance
           await advanceTimeAndBlock(await duration.days(7).toNumber());
 
           await dutchAuction.connect(adminAccount).setPublicSale(true);
-          // 7 to mint tier 2,
+          // public sale
           await dutchAuction
             .connect(userAccounts[10])
-            .publicSaleMint(283, false, {
-              value: ethers.utils.parseUnits("283", "ether"),
+            .publicSaleMint(saleNfts - 2, false, {
+              value: ethers.utils.parseUnits(
+                (saleNfts - 2).toString(),
+                "ether"
+              ),
             });
           // advance time to after public
           await advanceTimeAndBlock(await duration.days(2).toNumber());
@@ -1274,17 +1289,16 @@ describe("Mogies dutch auction unit tests", () => {
             await dutchAuction.balanceOf(userAccounts[6].address),
             "user 7"
           ).to.equal(2);
-          // user minted 1573 beforehand + 1 from mintRemaining
+          // user minted auctionNfts - 15 beforehand + 1 from mintRemaining
           expect(
             await dutchAuction.balanceOf(userAccounts[7].address),
             "user 8"
-          ).to.equal(1574);
+          ).to.equal(auctionNfts - 15 + 1);
         });
 
         it("Should allow users to mint remaining from auction (5 users, 5 remaining)", async () => {
-          // 7 users to be tier 1
-          // 0 - 6 mint tier 1,
-          for (let i = 0; i < 5; i++) {
+          // 0 - 3 mint tier 1,
+          for (let i = 0; i < 4; i++) {
             await dutchAuction.connect(userAccounts[i]).auctionMint(1, false, {
               value: ethers.utils.parseUnits("1", "ether"),
             });
@@ -1292,21 +1306,27 @@ describe("Mogies dutch auction unit tests", () => {
           // next day
           await advanceTimeAndBlock(await duration.days(1).toNumber());
           await dutchAuction
-            .connect(userAccounts[11])
-            .auctionMint(1578, false, {
-              value: ethers.utils.parseUnits("1578", "ether"),
+            .connect(userAccounts[4])
+            .auctionMint(auctionNfts - 4 - 1, false, {
+              value: ethers.utils.parseUnits(
+                (auctionNfts - 5).toString(),
+                "ether"
+              ),
             });
 
-          // advance to day 2
+          // advance
           await advanceTimeAndBlock(await duration.days(7).toNumber());
 
           await dutchAuction.connect(adminAccount).setPublicSale(true);
 
-          // 7 to mint tier 2,
+          // public sale
           await dutchAuction
             .connect(userAccounts[10])
-            .publicSaleMint(285, false, {
-              value: ethers.utils.parseUnits("285", "ether"),
+            .publicSaleMint(saleNfts - 4, false, {
+              value: ethers.utils.parseUnits(
+                (saleNfts - 4).toString(),
+                "ether"
+              ),
             });
           // advance time to after public
           await advanceTimeAndBlock(await duration.days(2).toNumber());
@@ -1336,7 +1356,7 @@ describe("Mogies dutch auction unit tests", () => {
           expect(
             await dutchAuction.balanceOf(userAccounts[4].address),
             "user 5"
-          ).to.equal(2);
+          ).to.equal(auctionNfts - 5 + 1);
         });
 
         it("Should allow users to mint remaining from auction (7 users, 5 remaining)", async () => {
@@ -1351,20 +1371,26 @@ describe("Mogies dutch auction unit tests", () => {
           await advanceTimeAndBlock(await duration.days(1).toNumber());
           await dutchAuction
             .connect(userAccounts[11])
-            .auctionMint(1576, false, {
-              value: ethers.utils.parseUnits("1576", "ether"),
+            .auctionMint(auctionNfts - 9, false, {
+              value: ethers.utils.parseUnits(
+                (auctionNfts - 9).toString(),
+                "ether"
+              ),
             });
 
-          // advance to day 2
+          // advance
           await advanceTimeAndBlock(await duration.days(7).toNumber());
 
           await dutchAuction.connect(adminAccount).setPublicSale(true);
 
-          // 7 to mint tier 2,
+          // public sale
           await dutchAuction
             .connect(userAccounts[10])
-            .publicSaleMint(285, false, {
-              value: ethers.utils.parseUnits("285", "ether"),
+            .publicSaleMint(saleNfts - 3, false, {
+              value: ethers.utils.parseUnits(
+                (saleNfts - 3).toString(),
+                "ether"
+              ),
             });
           // advance time to after public
           await advanceTimeAndBlock(await duration.days(2).toNumber());
@@ -1414,8 +1440,11 @@ describe("Mogies dutch auction unit tests", () => {
           await advanceTimeAndBlock(await duration.days(1).toNumber());
           await dutchAuction
             .connect(userAccounts[11])
-            .auctionMint(1580, false, {
-              value: ethers.utils.parseUnits("1580", "ether"),
+            .auctionMint(auctionNfts - 5, false, {
+              value: ethers.utils.parseUnits(
+                (auctionNfts - 5).toString(),
+                "ether"
+              ),
             });
 
           // advance
@@ -1425,8 +1454,11 @@ describe("Mogies dutch auction unit tests", () => {
 
           await dutchAuction
             .connect(userAccounts[10])
-            .publicSaleMint(282, false, {
-              value: ethers.utils.parseUnits("282", "ether"),
+            .publicSaleMint(saleNfts - 6, false, {
+              value: ethers.utils.parseUnits(
+                (saleNfts - 6).toString(),
+                "ether"
+              ),
             });
           // advance time to after public
           await advanceTimeAndBlock(await duration.days(2).toNumber());
@@ -1914,7 +1946,9 @@ describe("Mogies dutch auction unit tests", () => {
           await dutchAuction
             .connect(adminAccount)
             .devMint(amountToMint, adminAccount.address);
-          await dutchAuction.connect(adminAccount).auctionMint(1585, true);
+          await dutchAuction
+            .connect(adminAccount)
+            .auctionMint(auctionNfts, true);
           // should fail since will be 1 over max supply for auction
           await expect(dutchAuction.auctionMint(1, true)).to.be.revertedWith(
             "Purchase would exceed max supply for Dutch auction mint"
@@ -2081,8 +2115,8 @@ describe("Mogies dutch auction unit tests", () => {
           await dutchAuction.connect(adminAccount).setAllowListMerkleRoot(root);
           await dutchAuction
             .connect(userAccounts[0])
-            .allowlistMint(288, false, proof, {
-              value: ethers.utils.parseUnits("288", "ether"),
+            .allowlistMint(saleNfts, false, proof, {
+              value: ethers.utils.parseUnits(saleNfts.toString(), "ether"),
             });
           try {
             await dutchAuction
@@ -2162,13 +2196,21 @@ describe("Mogies dutch auction unit tests", () => {
           }
         });
         it("Should not throw if trying to mint but max limit not reached", async () => {
-          await dutchAuction.connect(userAccounts[0]).auctionMint(1584, false, {
-            value: ethers.utils.parseUnits("1584", "ether"),
-          });
           await dutchAuction
             .connect(userAccounts[0])
-            .publicSaleMint(289, false, {
-              value: ethers.utils.parseUnits("289", "ether"),
+            .auctionMint(auctionNfts - 1, false, {
+              value: ethers.utils.parseUnits(
+                (auctionNfts - 1).toString(),
+                "ether"
+              ),
+            });
+          await dutchAuction
+            .connect(userAccounts[0])
+            .publicSaleMint(saleNfts + 1, false, {
+              value: ethers.utils.parseUnits(
+                (saleNfts + 1).toString(),
+                "ether"
+              ),
             });
         });
         it("Should throw if not enough eth sent", async () => {
@@ -2376,7 +2418,9 @@ describe("Mogies dutch auction unit tests", () => {
         // 7 users in tier 1 dutch auction
         await dutchAuction
           .connect(userAccounts[0])
-          .auctionMint(1585, false, { value: parseEther("1585") });
+          .auctionMint(auctionNfts, false, {
+            value: parseEther(auctionNfts.toString()),
+          });
 
         // setup whitelist
         const array = [
@@ -2398,7 +2442,9 @@ describe("Mogies dutch auction unit tests", () => {
         // mint all avaiable sale mints
         await dutchAuction
           .connect(userAccounts[0])
-          .allowlistMint(288, false, proof, { value: parseEther("288") });
+          .allowlistMint(saleNfts, false, proof, {
+            value: parseEther(saleNfts.toString()),
+          });
 
         await advanceTimeAndBlock(
           currentTime.add(duration.days(10)).toNumber()
