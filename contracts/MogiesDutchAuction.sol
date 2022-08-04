@@ -17,8 +17,8 @@ contract MogiesDutchAuction is Ownable, ERC721A, ReentrancyGuard {
 
   uint256 public immutable maxBatchSize;
   uint256 public immutable amountForDevs = 50;
-  uint256 public immutable amountForSales = 288;
-  uint256 public immutable amountForAuction = 1585;
+  uint256 public immutable amountForSales = 1073;
+  uint256 public immutable amountForAuction = 800;
   uint256 public immutable totalAmount = 1923;
 
   // prices in usd
@@ -305,6 +305,7 @@ contract MogiesDutchAuction is Ownable, ERC721A, ReentrancyGuard {
         totalAmount - amountForDevs,
       "Purchase would exceed max supply"
     );
+    require(saleConfig.publicSaleStartTime < block.timestamp && block.timestamp < saleConfig.publicSaleEndTime, "public sale not active");
     require(isPublicSaleOn(), "public sale is not active");
     saleConfig.saleMintedAmount += quantity;
     if (isUsingStars) {
