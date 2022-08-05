@@ -301,8 +301,8 @@ contract MogiesDutchAuction is Ownable, ERC721A, ReentrancyGuard {
     callerIsUser
   {
     require(
-      saleConfig.saleMintedAmount + saleConfig.auctionMintedAmount + quantity <=
-        totalAmount - amountForDevs,
+      amountForDevs + saleConfig.saleMintedAmount + saleConfig.auctionMintedAmount + quantity <=
+        totalAmount,
       "Purchase would exceed max supply"
     );
     require(saleConfig.publicSaleStartTime < block.timestamp && block.timestamp < saleConfig.publicSaleEndTime, "public sale not active");
