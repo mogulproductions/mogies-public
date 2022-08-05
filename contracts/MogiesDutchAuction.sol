@@ -25,6 +25,9 @@ contract MogiesDutchAuction is Ownable, ERC721A, ReentrancyGuard {
   uint256 public ethUSDPrice;
   uint256 public starsUSDPrice;
 
+  string private _name;
+  string private _symbol;
+
   // dates for auction
   uint256 public constant AUCTION_PRICE_CURVE_LENGTH = 5 days;
   uint256 public constant AUCTION_DROP_INTERVAL = 1 days;
@@ -111,6 +114,9 @@ contract MogiesDutchAuction is Ownable, ERC721A, ReentrancyGuard {
 
     ethUSDPrice = _ethUSDPrice;
     starsUSDPrice = _starsUSDPrice;
+
+    _name = "Mogies";
+    _symbol = "MOGIES";
 
     saleConfig.auctionSaleStartTime = _auctionSaleStartTime;
     saleConfig.auctionSaleEndTime = _auctionSaleEndTime;
@@ -629,5 +635,13 @@ contract MogiesDutchAuction is Ownable, ERC721A, ReentrancyGuard {
     if (remainder != 0) {
       _safeMint(recipient, remainder);
     }
+  }
+
+  function name() public view virtual override returns (string memory) {
+      return _name;
+  }
+
+  function symbol() public view virtual override returns (string memory) {
+      return _symbol;
   }
 }

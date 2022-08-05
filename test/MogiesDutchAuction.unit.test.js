@@ -121,6 +121,10 @@ describe("Mogies dutch auction unit tests", () => {
   });
 
   describe("Init Deploy", async () => {
+    it("validates name and symbol", async () => {
+      expect(await dutchAuction.name()).to.equal("Mogies");
+      expect(await dutchAuction.symbol()).to.equal("MOGIES");
+    });
     // Init
     it("Should initialize properly", async () => {
       expect(await dutchAuction.owner(), "wrong ownner address").to.equal(
