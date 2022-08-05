@@ -1,11 +1,11 @@
 const { ethers } = require("hardhat");
 const fs = require("fs");
 
-MOGIES_DUTCH_AUCTION = "0x251Ef619Bf16767A90cF63c286D17f741a28c2b8";
+MOGIES_DUTCH_AUCTION = "0x2Eb636D3c7E4D8bBCfc3Cb624a2465B683F092C1";
 
 // [LOW, HIGH)
-TOKEN_ID_LOW = 0;
-TOKEN_ID_HIGH = 50;
+TOKEN_ID_LOW = 150;
+TOKEN_ID_HIGH = 250;
 
 ETH_PRICE = ethers.utils.parseEther("0.5");
 
